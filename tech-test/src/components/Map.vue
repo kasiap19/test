@@ -1,7 +1,6 @@
 <template>
     <div class="all">
             <button class="all__btn" @click="toggleCountries">display all</button>
-
         <div class="all__feeds feeds">
             <div class="feeds__countries" v-for="item in location">
                 <button :data-lat="item.latitude" @click="selectCountry">
@@ -37,21 +36,19 @@ export default {
             this.location = data;
             
              for (var i = 0; i < this.location.length; i++) {
-
                  // get name, longitude and latitude from JSON
                  this.name = this.location[i].name
                  this.longitude = this.location[i].longitude
                  this.latitude = this.location[i].latitude
                 //  console.log(this.latitude)
 
-                // push new array into the location array -> according to leaftet.js patter 
+                // push new array into the location array -> according to leaftet.js pattern 
                 // [['name', lon, lat]] so the markers can be displayed using leaftet.js func
                 this.locations.push([this.name, this.latitude, this.longitude])
              }
             //  console.log(this.locations)
             this.initMap(); 
         });
-
     },
 
   methods: {
@@ -97,8 +94,8 @@ export default {
     },
   
     toggleCountries(event) {
-             event.target.parentNode.classList.toggle('is-active')
-        },
+        event.target.parentNode.classList.toggle('is-active')
+    },
 
     selectCountry(e) {
         console.log(Number(e.currentTarget.getAttribute('data-lat')));
