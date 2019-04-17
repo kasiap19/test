@@ -21,8 +21,8 @@ export default {
             tileLayer: null,
             location: [],
             locations:  [],
-            markers: [],
             ids: [],
+            markers: [],
             latitude: null,
         }    
     },
@@ -79,17 +79,15 @@ export default {
 
         // loop all countries and display their markers
         for (var i = 0; i < this.locations.length; i++) {
-            this.ids.push(this.marker._leaflet_id)
+            // this.ids.push(this.marker._leaflet_id)
 
             this.marker = new L.marker([this.locations[i][1],this.locations[i][2]], {icon: this.icon})
             .bindPopup('<span class="popup-txt">'+this.locations[i][0]+'</span>')
-            .addTo(this.map).on('click', function(e) {
-                console.log(e.latlng);
-            });
+            .addTo(this.map)
             
-            this.marker.openPopup()
-            this.ids.push(this.marker._leaflet_id)
-
+            this.marker.openPopup();
+           
+           this.markers.push(this.marker)
         }
     },
   
@@ -98,18 +96,16 @@ export default {
     },
 
     selectCountry(e) {
+        // console.log(this.markers)
         console.log(Number(e.currentTarget.getAttribute('data-lat')));
-
-        for (var i = 0; i < this.location.length; i++) {
-            // console.log(this.location[i].latitude)
-
+        
+        for (var i = 0; i < this.markers.length; i++) {
+            
             // if latitude from the button is equal to the latitude from marker openPopup()
-            if (parseInt(Number(e.currentTarget.getAttribute('data-lat'))) === this.location[i].latitude) {
-                // console.log('match')
+            if (parseInt(Number(e.currentTarget.getAttribute('data-lat'))) === Number(this.markers[i]._latlng.lat)) {
 
-                console.log(this.location[i].latitude)
-
-                this.location[i].openPopup() // <-------- FIX
+                console.log(Number(this.markers[i]._latlng.lat.toFixed(6)))
+                this.markers[i].openPopup() 
             }
             else {
                 // console.log('nothing')
