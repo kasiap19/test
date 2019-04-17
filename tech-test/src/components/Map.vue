@@ -112,7 +112,7 @@ export default {
 
                 console.log(this.location[i].latitude)
 
-                this.location[i].openPopup() // FIX
+                this.location[i].openPopup() // <-------- FIX
             }
             else {
                 // console.log('nothing')
