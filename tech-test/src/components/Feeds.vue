@@ -3,7 +3,7 @@
     <button class="all__btn" @click="test">display all</button>
     <div class="all__feeds feeds">
         <div class="feeds__countries" v-for="item in countries" :key="item.longitude">
-            <button data-dep="xxx">
+            <button data-dep="xxx" @click="selectCountry">
                 {{item}}
             </button>
         </div>
@@ -39,6 +39,10 @@ export default {
     methods: {
         test(event) {
              event.target.parentNode.classList.toggle('is-active')
+        },
+
+        selectCountry() {
+             this.markerFunction(info[e.currentTarget.getAttribute('data-dep')].latitude);
         }
     }
 }
