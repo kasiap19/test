@@ -4,7 +4,7 @@
 
         <div class="all__feeds feeds">
             <div class="feeds__countries" v-for="item in location">
-                <button :data-lat="item.latitude" @click="test">
+                <button :data-lat="item.latitude" @click="selectCountry">
                     {{item.name}}
                 </button>
             </div>
@@ -23,7 +23,8 @@ export default {
             location: [],
             locations:  [],
             markers: [],
-            ids: []
+            ids: [],
+            latitude: null,
         }    
     },
 
@@ -41,6 +42,7 @@ export default {
                  this.name = this.location[i].name
                  this.longitude = this.location[i].longitude
                  this.latitude = this.location[i].latitude
+                //  console.log(this.latitude)
 
                 // push new array into the location array -> according to leaftet.js patter 
                 // [['name', lon, lat]] so the markers can be displayed using leaftet.js func
@@ -54,7 +56,6 @@ export default {
 
   methods: {
     initMap() {
-
         // console.log(this.locations)
         // set a map for Europe with zoom 5 
         this.map = L.map('map').setView([53.0000, 16.0000], 4.5);
@@ -68,6 +69,7 @@ export default {
             }
         );
 
+        // custom marker 
         this.icon = L.icon({
         iconUrl: 'http://www.myiconfinder.com/uploads/iconsets/256-256-7a195b78d9607a48fb234f98634fa5ea-pin.png',
         iconSize: [21, 34]
@@ -80,7 +82,7 @@ export default {
 
         // loop all countries and display their markers
         for (var i = 0; i < this.locations.length; i++) {
-        this.ids.push(this.marker._leaflet_id)
+            this.ids.push(this.marker._leaflet_id)
 
             this.marker = new L.marker([this.locations[i][1],this.locations[i][2]], {icon: this.icon})
             .bindPopup('<span class="popup-txt">'+this.locations[i][0]+'</span>')
@@ -98,10 +100,24 @@ export default {
              event.target.parentNode.classList.toggle('is-active')
         },
 
-    test(e) {
-        console.log(this.ids)
-        // get latitude of clicked button
-        console.log(e.currentTarget.getAttribute('data-lat'))
+    selectCountry(e) {
+        console.log(Number(e.currentTarget.getAttribute('data-lat')));
+
+        for (var i = 0; i < this.location.length; i++) {
+            // console.log(this.location[i].latitude)
+
+            // if latitude from the button is equal to the latitude from marker openPopup()
+            if (parseInt(Number(e.currentTarget.getAttribute('data-lat'))) === this.location[i].latitude) {
+                // console.log('match')
+
+                console.log(this.location[i].latitude)
+
+                this.location[i].openPopup() // FIX
+            }
+            else {
+                // console.log('nothing')
+            }
+        }
     }
   },
 }
